@@ -29,11 +29,12 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _nameController = TextEditingController();
 
   checkAndNavigate() async {
-    var number = _numberController.text;
+    var number = _numberController.text.trim();
+    if (!number.startsWith('+91')) {
+      number = "+91$number";
+    }
     if (!number.startsWith('+')) {
       number = "+$number";
-    } else if (!number.startsWith('+91')) {
-      number = "+91$number";
     }
 
     if (number == "+91$kSignInNumber") {
@@ -42,7 +43,8 @@ class _AuthScreenState extends State<AuthScreen> {
       });
       navigateToHome();
     } else {
-      if (_emailController.text.isEmpty || _nameController.text.isEmpty) {
+      if (_emailController.text.trim().isEmpty ||
+          _nameController.text.trim().isEmpty) {
         setState(() {
           _showSignUpFields = true;
         });
